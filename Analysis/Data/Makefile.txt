@@ -1,0 +1,28 @@
+# Makefile
+
+
+# Load the required packages
+
+# Load the readr package since we will be using read_csv
+library("readr")
+
+# Load the dplyr package for data manipulation
+library("dplyr")
+
+# Load the tidyr package
+library("tidyr")
+
+# Load the magrittr package
+library("magrittr")
+
+# GatherData1.R
+source('GatherData1.R')
+
+# CleanData1.R
+source('CleanData1.R')
+
+# GatherData2.R
+source('GatherData2.R')
+
+# Merge the data sets based on CountryCode
+source('MergeData.R')
