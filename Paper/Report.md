@@ -334,3 +334,5 @@ There are **5** countries which are lower middle income but fall amoung the 38 n
 
 Conclusion:
 ===========
+
+Lower middle income economies have the largest spread of all the income groups. Five of the top 38 economies are part of the lower middle income group, which has caused this large spread.
