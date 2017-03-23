@@ -2,7 +2,7 @@
 ## GDP and Income groups of nations
 Shravan Kuchkula
 
-Gross Domestic Product and Income groups of nations are analysed in this project using R. The research and analysis is reproducible and extendable. A good starting point would be to take a look at the `**Report.md**` file - which contains the data gathering, cleaning, merging, analysis and reporting all in one place. For those, who want to reproduce the analysis done here, you can start with `Instructions to run the code` section in Report.md file.
+Gross Domestic Product and Income groups of nations are analysed in this project using R. The research and analysis is reproducible and extendable. A good starting point would be to take a look at the **`Report.md`** file - which contains the data gathering, cleaning, merging, analysis and reporting all in one place. For those, who want to reproduce the analysis done here, you can start with `Instructions to run the code` section in Report.md file.
 
 A quick glance of the project structure and a brief description of the files is given below:
 
