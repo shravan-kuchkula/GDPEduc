@@ -165,8 +165,8 @@ grpAvgs <- groupRankAverages()
 grpAvgs[grepl(".*OECD$", grpAvgs$`Income Group`),]
 ```
 
-The average GDP Ranking for *High income: nonOECD* is: 91.91304
-The average GDP Ranking for *High income: OECD* is: 32.96667
+  * The average GDP Ranking for *High income: nonOECD* is: **91.91304**
+  * The average GDP Ranking for *High income: OECD* is: **32.96667**
 
 
 ## Question 4

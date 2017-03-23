@@ -8,14 +8,14 @@ Shravan Kuchkula
 -   [File and Directory Organization](#file-and-directory-organization)
 -   [Instructions to run the code](#instructions-to-run-the-code)
 -   [Analysis](#analysis)
-    -   [Question 1:](#question-1)
-    -   [Question 2:](#question-2)
-    -   [Question 3:](#question-3)
-    -   [Question 4:](#question-4)
-    -   [Question 5:](#question-5)
-    -   [Question 6:](#question-6)
--   [Conclusion:](#conclusion)
--   [References:](#references)
+    -   [Question 1](#question-1)
+    -   [Question 2](#question-2)
+    -   [Question 3](#question-3)
+    -   [Question 4](#question-4)
+    -   [Question 5](#question-5)
+    -   [Question 6](#question-6)
+-   [Conclusion](#conclusion)
+-   [References](#references)
 
 Introduction
 ------------
@@ -136,8 +136,8 @@ source('Analysis.R')
 setwd('../Paper')
 ```
 
-Question 1:
------------
+Question 1
+----------
 
 > Merge the data based on the country shortcode. How many of the IDs match?
 
@@ -154,8 +154,8 @@ paste("The number of IDs matched by merging GDP and EdStats datasets are ",
 
     ## [1] "The number of IDs matched by merging GDP and EdStats datasets are  224"
 
-Question 2:
------------
+Question 2
+----------
 
 > Sort the data frame in ascending order by GDP (so United States is last). What is the 13th country in the resulting data frame?
 
@@ -171,8 +171,8 @@ paste("The 13th smallest GDP country is: ", gdpRank(13))
 
 The 13th smallest GDP country is: **"St Kitts and Nevis"**
 
-Question 3:
------------
+Question 3
+----------
 
 > What are the average GDP rankings for the "High income: OECD" and "High income: nonOECD" groups?
 
@@ -189,10 +189,11 @@ grpAvgs[grepl(".*OECD$", grpAvgs$`Income Group`),]
     ## 1 High income: nonOECD 91.91304
     ## 2    High income: OECD 32.96667
 
-The average GDP Ranking for *High income: nonOECD* is: 91.91304 The average GDP Ranking for *High income: OECD* is: 32.96667
+-   The average GDP Ranking for *High income: nonOECD* is: **91.91304**
+-   The average GDP Ranking for *High income: OECD* is: **32.96667**
 
-Question 4:
------------
+Question 4
+----------
 
 > Show the distribution of GDP value for all the countries and color plots by income group. Use ggplot2 to create your plot.
 
@@ -289,8 +290,8 @@ Five number summaries using Boxplots reveal the spread and distribution of the l
 
 All the above plots are different ways in which we can visualize the distribution of GDP values within and between the income groups.
 
-Question 5:
------------
+Question 5
+----------
 
 > Provide summary statistics of GDP by income groups.
 
@@ -317,8 +318,8 @@ A quick and easy way to obtain group-wise summary statistics is by using the `ps
     ##   8227103  8227063 6.381095 41.381778 155082.628
     ##   2252664  2252436 3.013289  8.925480  71087.887
 
-Question 6:
------------
+Question 6
+----------
 
 > Cut the GDP ranking into 5 separate quantile groups. Make a table versus Income Group. How many countries are Lower middle income but among the 38 nations with highest GDP?
 
@@ -346,13 +347,13 @@ By default, `quantileCut` divides the Ranking column into the following quantile
 
 There are **5** countries which are lower middle income but fall amoung the 38 nations with highest GDP
 
-Conclusion:
-===========
+Conclusion
+==========
 
 GDP data being heavily right-skewed was log transformed to gain a better understanding of the distribution of logGDP for the five income groups. Interesting patters emerged by doing some exploratory data analysis. The distribution of logGDP for countries classified into High income and Low income groups seem to be following a normal distribution. Lower middle and Upper middle income groups have roughly the same mean- this could be attributed to the fact that Lower middle income economies have the largest spread of all the income groups. Five of the top 38 economies are part of the lower middle income group, which has caused this large spread.
 
-References:
-===========
+References
+==========
 
 -   [Rendering rmarkdown files on github](http://stat545.com/block007_first-use-rmarkdown.html)
 -   [qunatileCut](https://artax.karlin.mff.cuni.cz/r-help/library/lsr/html/quantileCut.html)
