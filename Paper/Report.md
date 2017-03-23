@@ -8,7 +8,7 @@ Introduction
 
 In the [*World Development Indicators*](http://databank.worldbank.org/data/views/variableSelection/selectvariables.aspx?source=world-development-indicators) database, all 189 World Bank member countries, plus 28 other economies with populations of more than 30,000, are classified based on income groups, so that data users can aggregate, group, and compare statistical data of interest, and for the presentation of key statistics. From this database, two data sets: `EdStats` and `GDP rank table` were obtained for the year of 2012 to analyse GDP based rankings and income group classifications.
 
-The `EdStats` data set ([*csv format*](https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv)) for the year 2012 contains two key variables:
+The `EdStats` data set ([*csv format*](https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv)) for the year 2012 contains 31 variables of which two key variables are:
 
 -   **CountryCode** - A unique three letter code to identify a Country/Economy.
 -   **Income Group** - One of five income groups: low, lower-middle, upper-middle, high OECD and high non-OECD
@@ -20,7 +20,7 @@ The `GDP rank table` data set ([*csv format*](https://d396qusza40orc.cloudfront.
 -   **Country** - Country name.
 -   **GDP** - Gross Domestic Product in millions of US dollars.
 
-Both these data sets are merged based on the matching country code to facilate with the analysis.
+Both these data sets are merged based on the matching country code to facilitate with the analysis.
 
 Cleaning the data sets
 ----------------------
@@ -47,6 +47,11 @@ File and Directory Organization
 -   `GatherData1.R` - Downloads the GDP Rank table data set.
 -   `GatherData2.R` - Downloads the EducStats data set.
 -   `MergeData.R` - Merges GDP and EducStats based on CountryCode.
+-   `libraries.R` - Downloads and loads the packages required.
+-   `Analysis.R` - Contains functions used in the analysis.
+-   `Main.R` - Main script that ties everything together.
+-   `Report.Rmd` - RMarkdown file that ties data gathering and analysis.
+-   `Report.md` - Markdown file that renders on Github as a webpage.
 
 The project structure is below:
 
@@ -66,7 +71,7 @@ The project structure is below:
           MergedData.csv
       |_
         Analysis.R
-        Questions.R
+        libraries.R
         Main.R
     |_
       Paper
@@ -74,30 +79,41 @@ The project structure is below:
           Report.html
           Report.pdf
           Report.Rmd
+          Report.md
 
 Instructions to run the code
 ============================
 
 When you download this project from Github, you will be in project's root directory, which in this case is: GDPEduc. You have 2 methods to reproduce the analysis done in this project.
 
-**Method 1**: From the GDPEduc/Paper directory, run the Report.Rmd file. When running the Report.Rmd from the Paper directory, the working directory is automatically changed to GDPEduc/Paper. Thus, we need to explicitly set the working directory to Analysis/Data, since we want the .csv files to be located over there.
+**Method 1**: Running `Main.R` script. From the R command prompt, navigate to GDPEduc/Analysis. Run the `Main.R` script. The `Main.R` script sources the `Makefile.txt` to download, clean and merge the datasets. It then runs the analysis and displays the output. If you are running from RStudio, then you need to just click 'Run' on the `Main.R` script.
+
+``` r
+  # Running from command prompt
+  source("Main.R")
+```
+
+**Method 2**: Running `Report.Rmd` to knit the RMarkdown document. From the GDPEduc/Paper directory, knit the `Report.Rmd` file to the desired output. `Report.Rmd` file sources the `Makefile.txt` and runs the analysis as illustrated in this document.
+
+Analysis
+========
+
+Data is gathered in the csv format from the two websites mentioned in the introduction. `Makefile.txt` executes a series of scripts to download the data, import it into R, clean the dataset by removing blank rows/columns and finally merges the two data sets based on *CountryCode*.
 
 ``` r
 setwd('../Analysis/Data')
 source('Makefile.txt')
 ```
 
-    ## ***************************** 
-    ## CleanData1.R 
-    ## *****************************
+    ## 3  observations with NA's in CountryCode are removed
 
 ``` r
 setwd('../../Paper')
 ```
 
-Next, load all the analysis R scripts that are needed for this project
+3 observations in the *CountryCode* column of the `GDP rank table` dataset were blanks. These rows are removed before merging with `EdStats` dataset.
 
-To run the analysis, change the directory to Analysis and run the Analysis.R which contains functions to aid in the analysis.
+Next, load all the libraries and analysis R scripts that are needed to conduct the analysis. Details of individual scripts can be found in the `File and Directory Structure` section of this document.
 
 ``` r
 setwd('../Analysis')
@@ -106,19 +122,12 @@ source('Analysis.R')
 setwd('../Paper')
 ```
 
-**Method 2**: Second way to reporduce this project is by running the Makefile.txt from the R command prompt .
-
-I will be using Method 1 for answering the questions in this case study.
-
-Analysis
-========
-
 Question 1:
 -----------
 
 > Merge the data based on the country shortcode. How many of the IDs match?
 
-The data sets `GDP rank table` and `EdStats` are merged based on CountryCode. Invoke the function idMatches in Analysis.R
+The data sets `GDP rank table` and `EdStats` are merged based on CountryCode. Invoke the function `idMatches` in `Analysis.R`. **Note:** While merging these 2 data sets, we only removed the NA's from CountryCode column. NA's in other columns like *Ranking* and *Gdp* are not removed while merging these data sets. If we removed the observations where Ranking or GDP were NA's, we would loose information regarding grouped Economies like "World", "AsiaPasific" etc. Thus, the number of IDs that matched when both these datasets are merged based on country shortcode is: **224**
 
 ``` r
 num_id_matches <- idMatches()
@@ -136,7 +145,7 @@ Question 2:
 
 > Sort the data frame in ascending order by GDP (so United States is last). What is the 13th country in the resulting data frame?
 
-Before we sort the data frame, we need to fix the following problems with the data set: 1. Remove NA's from GDP and Ranking columns. 2. Format the GDP data by removing commas "," 3. Convert GDP data to numeric.
+Before we sort the data frame, we need to fix the following problems with the merged data set: \* Remove NA's from GDP and Ranking columns. \* Format the GDP data by removing commas "," \* Convert GDP data to numeric.
 
 The `gdpRank()` function in the `Analysis.R` script displays the n-th smallest economy.
 
@@ -182,7 +191,7 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
     scale_color_manual(name = "Normal Curves", values = cols)
 ```
 
-![](Report_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](Report_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 ``` r
   # Draw the histogram of count vs log10(GDP) faceted by Income Groups
@@ -195,7 +204,7 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
     labs(x = "log10(Gdp)")
 ```
 
-![](Report_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](Report_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 ``` r
   # Overlay multiple density plots
@@ -207,7 +216,7 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
     scale_fill_discrete(name = "Income Group")
 ```
 
-![](Report_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](Report_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 ``` r
   # Display mean and 1 sd
@@ -220,7 +229,7 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
     labs(x = "Income Groups")
 ```
 
-![](Report_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](Report_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 ``` r
   # Box plots with data overlayed to get an idea of the distribution of GDP
@@ -232,7 +241,7 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
     labs(x = "Income Groups")
 ```
 
-![](Report_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](Report_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 Question 5:
 -----------
