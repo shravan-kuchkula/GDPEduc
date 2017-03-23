@@ -147,7 +147,7 @@ Question 2:
 
 Before we sort the data frame, we need to fix the following problems with the merged data set: \* Remove NA's from GDP and Ranking columns. \* Format the GDP data by removing commas "," \* Convert GDP data to numeric.
 
-The `gdpRank()` function in the `Analysis.R` script displays the n-th smallest economy.
+The `gdpRank()` function in the `Analysis.R` script displays the n-th smallest economy. The dataframe is sorted based on the GDP column in ascending order.
 
 ``` r
 paste("The 13th smallest GDP country is: ", gdpRank(13))
@@ -155,12 +155,14 @@ paste("The 13th smallest GDP country is: ", gdpRank(13))
 
     ## [1] "The 13th smallest GDP country is:  St. Kitts and Nevis"
 
+The 13th smallest GDP country is: **"St Kitts and Nevis"**
+
 Question 3:
 -----------
 
 > What are the average GDP rankings for the "High income: OECD" and "High income: nonOECD" groups?
 
-The `groupRankAverages()` function in the `Analysis.R` script displays the average GDP Ranking of a given income group.
+The `groupRankAverages()` function in the `Analysis.R` script displays the average GDP Ranking by income group. The resulting dataframe is then grep'ed for income groups ending in OECD.
 
 ``` r
 grpAvgs <- groupRankAverages()
@@ -173,10 +175,14 @@ grpAvgs[grepl(".*OECD$", grpAvgs$`Income Group`),]
     ## 1 High income: nonOECD 91.91304
     ## 2    High income: OECD 32.96667
 
+The average GDP Ranking for *High income: nonOECD* is: 91.91304 The average GDP Ranking for *High income: OECD* is: 32.96667
+
 Question 4:
 -----------
 
 > Show the distribution of GDP value for all the countries and color plots by income group. Use ggplot2 to create your plot.
+
+The distribution of GDP value is right skewed, a log transformation is required to visualize the distribution of GDP value. The below plot shows how the log transformed GDP density looks like. The `Emperical` line represents the distribution of GDP value based on the current data set values. The `Theoritical` line represents the theoritical normal curve.
 
 ``` r
 # Draw a density curve
@@ -188,10 +194,16 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
     geom_density(aes(col = "Emperical")) +
     stat_function(fun = dnorm, args = fun_args, aes(col = "Theoritical")) + 
     theme_classic() +
-    scale_color_manual(name = "Normal Curves", values = cols)
+    scale_color_manual(name = "Normal Curves", values = cols) +
+    labs(x = "log GDP") +
+    ggtitle("Log transformed GDP density plot") +
+    theme(plot.title = element_text(hjust = 0.5, face="bold.italic",
+                                    size = rel(0.8), color = "darkblue"))
 ```
 
 ![](Report_files/figure-markdown_github/unnamed-chunk-8-1.png)
+
+A histogram of count vs log(GDP) grouped by the Income groups reveals at a glance that there are more countries which fall into lower middle income than any other group.
 
 ``` r
   # Draw the histogram of count vs log10(GDP) faceted by Income Groups
@@ -201,10 +213,15 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
     facet_grid(.~ factor(`Income Group`)) + 
     theme_dark() +
     theme(legend.position = "none", strip.text = element_text(size = rel(0.5))) +
-    labs(x = "log10(Gdp)")
+    labs(x = "log10(Gdp)") +
+    ggtitle("Count vs log GDP faceted by Income Groups") +
+    theme(plot.title = element_text(hjust = 0.5, face="bold.italic",
+                                    size = rel(0.8), color = "darkblue"))
 ```
 
 ![](Report_files/figure-markdown_github/unnamed-chunk-9-1.png)
+
+Overlaying the density plots of log GDP values of Income Groups gives us a clear picture of where each group is centered. Interestingly, the *lower middle income* and *upper middle income* are centered very closely and have similar distributions.
 
 ``` r
   # Overlay multiple density plots
@@ -213,10 +230,15 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
     theme_light() +
     theme(legend.text = element_text(size=rel(0.5))) + 
     labs(x = "GDP log transformed") +
-    scale_fill_discrete(name = "Income Group")
+    scale_fill_discrete(name = "Income Group") +
+    ggtitle("Overlaying log(GDP) density curves") +
+    theme(plot.title = element_text(hjust = 0.5, face="bold.italic",
+                                    size = rel(0.8), color = "darkblue"))
 ```
 
 ![](Report_files/figure-markdown_github/unnamed-chunk-10-1.png)
+
+Displaying the mean and 1 standard deviation of the distribution of log(GDP) values within each group shows which group has the highest and lowest spread of values. As we can see here, the *lower middle income* group has the widest spread, whereas the *low income* group has the narrowest spread.
 
 ``` r
   # Display mean and 1 sd
@@ -226,10 +248,15 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
                  fun.args = list(mult = 1), col = "blue", width = 0.1) +
     theme_light() +
     theme(axis.text = element_text(angle = 45, hjust = c(1), size = rel(0.6))) +
-    labs(x = "Income Groups")
+    labs(x = "Income Groups") + 
+    ggtitle("Mean and 1 SD from mean") +
+    theme(plot.title = element_text(hjust = 0.5, face="bold.italic",
+                                    size = rel(0.8), color = "darkblue"))
 ```
 
 ![](Report_files/figure-markdown_github/unnamed-chunk-11-1.png)
+
+Five number summaries using Boxplots reveal the spread and distribution of the log(GDP) values within and between income groups. The *blue* dots here represent the actual values within each group.
 
 ``` r
   # Box plots with data overlayed to get an idea of the distribution of GDP
@@ -238,15 +265,22 @@ cols <- c("Emperical"="#f04546","Theoritical"="#3591d1")
     geom_boxplot(outlier.size=0, alpha=0.2) +
     theme_light() +
     theme(axis.text = element_text(angle = 45, hjust = c(1), size = rel(0.6))) +
-    labs(x = "Income Groups")
+    labs(x = "Income Groups") +
+    ggtitle("Boxplot overlayed with actual values") +
+    theme(plot.title = element_text(hjust = 0.5, face="bold.italic",
+                                    size = rel(0.8), color = "darkblue"))
 ```
 
 ![](Report_files/figure-markdown_github/unnamed-chunk-12-1.png)
+
+All the above plots are different ways in which we can visualize the distribution of GDP values within and between the income groups.
 
 Question 5:
 -----------
 
 > Provide summary statistics of GDP by income groups.
+
+A quick and easy way to obtain group-wise summary statistics is by using the `psych` package. `describeBy` function in this package, takes a continuous variable and a categorical variable and provides descriptive statistics by group. The argument `mat=TRUE` displays the results in a matrix format.
 
 ``` r
 # Descriptive statistics using psych package.
@@ -274,6 +308,9 @@ Question 6:
 
 > Cut the GDP ranking into 5 separate quantile groups. Make a table versus Income Group. How many countries are Lower middle income but among the 38 nations with highest GDP?
 
+The `quantileCut` function from the `lsr` package works much the same way as the base R's `cut` function. However, it differs from the `cut` function in the manner in which it calculates the quantile groups. The `quantileCut` uses the `quantile` function to calculate the groups.
+By default, `quantileCut` divides the Ranking column into the following quantile groups: `Levels: (0.811,38.6] (38.6,76.2] (76.2,114] (114,152] (152,190]`. Labels Q1-5 are assigned to these levels. We then use the `dplyr` package's `mutate`, `filter` and `select` functions to tabulate the data.
+
 ``` r
 # QuantileCut to divide the GDP rankings into 5 quantile groups
   gdpEducTemp <- gdpEduc
@@ -292,3 +329,8 @@ Question 6:
     ## 3         IDN        Indonesia      16 Lower middle income        Q1
     ## 4         THA         Thailand      31 Lower middle income        Q1
     ## 5         EGY Egypt, Arab Rep.      38 Lower middle income        Q1
+
+There are **5** countries which are lower middle income but fall amoung the 38 nations with highest GDP
+
+Conclusion:
+===========
