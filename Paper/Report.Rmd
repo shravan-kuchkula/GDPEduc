@@ -3,15 +3,15 @@ title: "GDP and Income groupings of nations"
 author: "Shravan Kuchkula"
 date: "3/14/2017"
 output:
-  github_document:
-    toc: yes
+  pdf_document:
+    fig_caption: yes
+    highlight: zenburn
   html_document:
     keep_md: yes
     theme: cosmo
     toc: yes
-  pdf_document:
-    fig_caption: yes
-    highlight: zenburn
+  github_document:
+    toc: yes
 ---
 
 ## Introduction
