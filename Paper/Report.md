@@ -3,6 +3,20 @@ GDP and Income groupings of nations
 Shravan Kuchkula
 3/14/2017
 
+-   [Introduction](#introduction)
+-   [Cleaning the data sets](#cleaning-the-data-sets)
+-   [File and Directory Organization](#file-and-directory-organization)
+-   [Instructions to run the code](#instructions-to-run-the-code)
+-   [Analysis](#analysis)
+    -   [Question 1:](#question-1)
+    -   [Question 2:](#question-2)
+    -   [Question 3:](#question-3)
+    -   [Question 4:](#question-4)
+    -   [Question 5:](#question-5)
+    -   [Question 6:](#question-6)
+-   [Conclusion:](#conclusion)
+-   [References:](#references)
+
 Introduction
 ------------
 
@@ -86,14 +100,14 @@ Instructions to run the code
 
 When you download this project from Github, you will be in project's root directory, which in this case is: GDPEduc. You have 2 methods to reproduce the analysis done in this project.
 
-**Method 1**: Running `Main.R` script. From the R command prompt, navigate to GDPEduc/Analysis. Run the `Main.R` script. The `Main.R` script sources the `Makefile.txt` to download, clean and merge the datasets. It then runs the analysis and displays the output. If you are running from RStudio, then you need to just click 'Run' on the `Main.R` script.
+**Method 1**: Running `Main.R` script. If you are running from RStudio, then you just need to click 'Run' on the `Main.R` script. If you are running from the R command prompt, then make sure you are in the project root directory and then source the `Analysis/Main.R` script. The `Main.R` script sources the `Makefile.txt` to download, clean and merge the datasets. It then runs the analysis and displays the output.
 
 ``` r
   # Running from command prompt
-  source("Main.R")
+  source("Analysis/Main.R")
 ```
 
-**Method 2**: Running `Report.Rmd` to knit the RMarkdown document. From the GDPEduc/Paper directory, knit the `Report.Rmd` file to the desired output. `Report.Rmd` file sources the `Makefile.txt` and runs the analysis as illustrated in this document.
+**Method 2**: Running `Report.Rmd` to knit the RMarkdown document. In RStudio, open the Report.Rmd file from the GDPEduc/Paper directory, knit the `Report.Rmd` file to the desired output. `Report.Rmd` file sources the `Makefile.txt` and runs the analysis as illustrated in this document.
 
 Analysis
 ========
@@ -335,4 +349,11 @@ There are **5** countries which are lower middle income but fall amoung the 38 n
 Conclusion:
 ===========
 
-Lower middle income economies have the largest spread of all the income groups. Five of the top 38 economies are part of the lower middle income group, which has caused this large spread.
+GDP data being heavily right-skewed was log transformed to gain a better understanding of the distribution of logGDP for the five income groups. Interesting patters emerged by doing some exploratory data analysis. The distribution of logGDP for countries classified into High income and Low income groups seem to be following a normal distribution. Lower middle and Upper middle income groups have roughly the same mean- this could be attributed to the fact that Lower middle income economies have the largest spread of all the income groups. Five of the top 38 economies are part of the lower middle income group, which has caused this large spread.
+
+References:
+===========
+
+-   [Rendering rmarkdown files on github](http://stat545.com/block007_first-use-rmarkdown.html)
+-   [qunatileCut](https://artax.karlin.mff.cuni.cz/r-help/library/lsr/html/quantileCut.html)
+-   [Reproducible research](https://github.com/christophergandrud/Rep-Res-Examples)
